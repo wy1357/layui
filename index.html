@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>layout 管理系统大布局 - Layui</title>
+  <link rel="stylesheet" href="../css/layui.css">
+  <link rel="stylesheet" href="../css/cropper.css">
+  <!-- 导入字体图标的样式 -->
+  <link rel="stylesheet" href="http://escook.cn:8086/assets/fonts/iconfont.css">
+  <!-- 导入自己的 CSS 样式表 -->
+  <link rel="stylesheet" href="../css/index.css">
+
+</head>
+<style>
+  .layui-body {
+    display: none;
+    background-color: #f2f2f2;
+  }
+
+  #index {
+    display: block;
+  }
+</style>
+
+<body>
+  <div class="layui-layout layui-layout-admin">
+    <!-- 头部区域 -->
+    <div class="layui-header">
+      <div class="layui-logo layui-hide-xs layui-bg-black">
+        <img src="http://escook.cn:8086/assets/images/logo.png" alt="">
+      </div>
+      <!-- 头部区域（可配合layui 已有的水平导航） -->
+      <ul class="layui-nav layui-layout-right" lay-filter="header-nav">
+        <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+          <a href="javascript:;" id="header-avatar">
+
+          </a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;" target="fm">基本资料</a></dd>
+            <dd><a href="javascript:;" target="fm">更换头像</a></dd>
+            <dd><a href="javascript:;" target="fm">重置密码</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item layui-hide-xs">
+          <!-- 退出登录的链接 -->
+          <a href="javascript:;" class="logout"><span class="iconfont icon-tuichu"></span>退出</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 侧边栏区域 -->
+    <div class="layui-side layui-bg-black">
+      <div class="layui-side-scroll slider">
+        <!-- 用户的信息区域 -->
+        <div class="user-info-box">
+
+        </div>
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree" lay-filter="side-nav" lay-shrink="all">
+          <li class="layui-nav-item layui-this">
+            <!-- 一级标题 -->
+            <a href="echarts.html" target="fm"><span class="iconfont icon-home"></span>首页</a>
+          </li>
+          <li class="layui-nav-item">
+            <!-- 一级标题 -->
+            <a href="javascript:;"><span class="iconfont icon-16"></span>文章管理</a>
+            <!-- 二级标题 -->
+            <dl class="layui-nav-child">
+              <dd>
+                <a href="javascript:;" data-id="type"><i class="layui-icon layui-icon-app"></i>文章类别</a>
+              </dd>
+              <dd>
+                <a href="javascript:;" data-id="list"><i class="layui-icon layui-icon-app"></i>文章列表</a>
+              </dd>
+              <dd>
+                <a href="javascript:;" data-id="text"><i class="layui-icon layui-icon-app"></i>发表文章</a>
+              </dd>
+            </dl>
+          </li>
+          <li class="layui-nav-item">
+            <!-- 一级标题 -->
+            <a href="javascript:;"><span class="iconfont icon-user"></span>个人中心</a>
+            <!-- 二级标题 -->
+            <dl class="layui-nav-child">
+              <dd><a href="javascript:;" data-id="info"><i class="layui-icon layui-icon-app"></i>基本资料</a></dd>
+              <dd><a href="javascript:;" data-id="checkImg"><i class="layui-icon layui-icon-app"></i>更换头像</a></dd>
+              <dd><a href="javascript:;" data-id="resetPass"><i class="layui-icon layui-icon-app"></i>重置密码</a></dd>
+            </dl>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 页面主体区域 -->
+    <div class="layui-body" id="index">
+      <!-- 内容主体区域 -->
+      <div id="container">
+        <iframe src="./echarts.html" frameborder="0" name="fm"></iframe>
+      </div>
+    </div>
+    <!-- 页面主体区域 -->
+    <div class="layui-body" id="type">
+      <!-- 内容主体区域 -->
+      <div id="container">
+        <!-- 卡片区域 -->
+        <div class="layui-card card">
+          <div class="layui-card-header" style="display: flex;justify-content: space-between;align-items: center;">
+            <span>文章类别管理</span>
+            <!-- 添加分类的按钮 -->
+            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="btnShowAdd">添加分类</button>
+          </div>
+          <div class="layui-card-body title_type">
+            <!-- 表格区域 -->
+            <table class="layui-table">
+              <colgroup>
+                <col width="150">
+                <col>
+                <col>
+                <col width="200">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>序号</th>
+                  <th>分类名称</th>
+                  <th>分类别名</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- 页面主体区域 -->
+    <div class="layui-body" id="list">
+      <!-- 内容主体区域 -->
+      <div id="container">
+        <!-- 卡片区域 -->
+        <div class="layui-card card">
+          <div class="layui-card-header">文章列表</div>
+          <div class="layui-card-body">
+            <!-- 筛选区域 -->
+            <form class="layui-form layui-form-pane">
+              <!-- 分类 -->
+              <div class="layui-form-item layui-inline">
+                <label class="layui-form-label">分类</label>
+                <div class="layui-input-block">
+                  <!-- 文章分类的下拉菜单 -->
+                  <select name="cate_id">
+                    <option value="">请选择分类</option>
+                  </select>
+                </div>
+              </div>
+              <!-- 状态 -->
+              <div class="layui-form-item layui-inline">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-block">
+                  <!-- 筛选状态的下拉菜单 -->
+                  <select name="state">
+                    <option value="">请选择状态</option>
+                    <option value="已发布">已发布</option>
+                    <option value="草稿">草稿</option>
+                  </select>
+                </div>
+              </div>
+              <!-- 筛选按钮 -->
+              <div class="layui-form-item layui-inline">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">筛选</button>
+              </div>
+              <!-- 重置按钮 -->
+              <div class="layui-form-item layui-inline">
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+              </div>
+            </form>
+
+            <!-- 表格区域 -->
+            <table class="layui-table">
+              <colgroup>
+                <col width="150">
+                <col width="200">
+                <col>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>文章标题</th>
+                  <th>分类</th>
+                  <th>发表时间</th>
+                  <th>状态</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+
+            <!-- 分页区域 -->
+            <div id="page-box">
+              <div class="layui-box layui-laypage layui-laypage-default" id="layui-laypage-3">
+                <span class="layui-laypage-count">共 0 条</span>
+                <span class="layui-laypage-limits">
+                  <select lay-ignore="">
+                    <option value="2" selected="">2 条/页</option>
+                    <option value="5">5 条/页</option>
+                    <option value="10">10 条/页</option>
+                    <option value="15">15 条/页</option>
+                    <option value="20">20 条/页</option>
+                  </select>
+                </span>
+                <a href="javascript:;" class="layui-laypage-prev layui-disabled" data-page="0">上一页</a>
+                <a href="javascript:;" class="layui-laypage-next layui-disabled" data-page="2">下一页</a>
+                <span class="layui-laypage-skip">到第
+                  <input type="text" min="1" value="1" class="layui-input">页
+                  <button type="button" class="layui-laypage-btn">确定</button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- 页面主体区域 -->
+    <div class="layui-body" id="text">
+      <!-- 内容主体区域 -->
+      <div id="container">
+        <!-- 卡片 -->
+        <div class="layui-card card" id="test">
+          <div class="layui-card-header">写文章</div>
+          <div class="layui-card-body">
+            <!-- 表单 -->
+            <form class="layui-form form-pub" style="width: auto;" id="news_publish">
+              <!-- 标题 -->
+              <div class="layui-form-item">
+                <label class="layui-form-label">文章标题</label>
+                <div class="layui-input-block">
+                  <input type="text" name="title" required lay-verify="required|title" placeholder="请输入文章标题"
+                    autocomplete="off" class="layui-input" maxlength="30">
+                </div>
+              </div>
+              <!-- 分类 -->
+              <div class="layui-form-item">
+                <label class="layui-form-label">文章类别</label>
+                <div class="layui-input-block">
+                  <select name="cate_id">
+
+                  </select>
+                </div>
+              </div>
+              <!-- 内容 -->
+              <div class="layui-form-item">
+                <!-- 左侧的 label -->
+                <label class="layui-form-label">文章内容</label>
+                <!-- 为富文本编辑器外部的容器设置高度 -->
+                <div class="layui-input-block" style="height: 400px;">
+                  <!-- 重要：将来这个 textarea 会被初始化为富文本编辑器 -->
+                  <textarea name="content"></textarea>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <!-- 左侧的 label -->
+                <label class="layui-form-label">文章封面</label>
+                <!-- 选择封面区域 -->
+                <div class="layui-input-block cover-box">
+                  <!-- 左侧裁剪区域 -->
+                  <div class="cover-left"style=" width: 400px;height: 280px;overflow: hidden;margin-right: 20px;">
+                    <img id="images" src="http://escook.cn:8086/assets/images/cover.jpg" alt="" />
+                  </div>
+                  <!-- 右侧预览区域和选择封面区域 -->
+                  <div class="cover-right">
+                    <!-- 预览的区域 -->
+                    <div class="img-preview">
+
+                    </div>
+                    <!-- 选择封面按钮 -->
+                    <!-- 选择图片的文件选择框 -->
+                    <input type="file" id="file" style="display: none;" accept="image/*" name="cover_img">
+                    <button type="button" class="layui-btn layui-btn-danger select_cover">选择封面</button>
+                  </div>
+                </div>
+              </div>
+              <!-- 按钮 -->
+              <div class="layui-form-item">
+                <div class="layui-input-block">
+                  <button class="layui-btn btn_pub publish" lay-submit lay-filter="formDemo">发布</button>
+                  <button class="layui-btn layui-btn-primary btn_cg cg" lay-submit>存为草稿</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-body" id="info">
+      <!-- 内容主体区域 -->
+      <div id="container">
+        <!-- 卡片区域 -->
+        <div class="layui-card card">
+          <div class="layui-card-header">修改用户信息</div>
+          <div class="layui-card-body" style="width: 500px;">
+            <!-- 表单 -->
+            <form class="layui-form" lay-filter="user-form" id="updateData">
+              <!-- 隐藏域 -->
+              <input type="hidden" name="id" value="">
+              <!-- 登录名称 -->
+              <div class="layui-form-item">
+                <label class="layui-form-label">登录名称</label>
+                <div class="layui-input-block">
+                  <input type="text" name="username" required placeholder="请输入登录名称" autocomplete="off"
+                    class="layui-input" disabled>
+                </div>
+              </div>
+              <!-- 用户昵称 -->
+              <div class="layui-form-item">
+                <label class="layui-form-label">用户昵称</label>
+                <div class="layui-input-block">
+                  <input type="text" name="nickname" required placeholder="请输入用户昵称" autocomplete="off"
+                    class="layui-input" lay-verify="required|nickname" maxlength="10">
+                </div>
+              </div>
+              <!-- 用户邮箱 -->
+              <div class="layui-form-item">
+                <label class="layui-form-label">用户邮箱</label>
+                <div class="layui-input-block">
+                  <input type="text" name="email" required placeholder="请输入用户邮箱" autocomplete="off" class="layui-input"
+                    lay-verify="required|email">
+                </div>
+              </div>
+              <!-- 按钮 -->
+              <div class="layui-form-item">
+                <div class="layui-input-block">
+                  <button class="layui-btn" lay-submit lay-filter="formDemo">提交修改</button>
+                  <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-body" id="checkImg">
+      <!-- 内容主体区域 -->
+      <div id="container">
+        <!-- 卡片区域 -->
+        <div class="layui-card card">
+          <div class="layui-card-header">更换头像</div>
+          <div class="layui-card-body">
+            <!-- 头像裁剪区域 -->
+            <!-- 第一行的图片裁剪和预览区域 -->
+            <div class="row1">
+              <!-- 图片裁剪区域 -->
+              <div class="cropper-box">
+                <!-- 这个 img 标签很重要，将来会把它初始化为裁剪区域 -->
+                <img id="image" src="http://escook.cn:8086/assets/images/avatar.jpg" />
+              </div>
+              <!-- 图片的预览区域 -->
+              <div class="preview-box">
+                <div>
+                  <!-- 宽高为 100px 的预览区域 -->
+                  <div class="img-preview w100"></div>
+                  <p class="size">100 x 100</p>
+                </div>
+                <div>
+                  <!-- 宽高为 50px 的预览区域 -->
+                  <div class="img-preview w50"></div>
+                  <p class="size">50 x 50</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 第二行的按钮区域 -->
+            <div class="row2" style="justify-content: flex-start;">
+              <!-- 选择图片的文件选择框 -->
+              <input type="file" id="file" style="display: none;" accept="image/*">
+              <button type="button" class="layui-btn" id="btnChooseImg">选择图片</button>
+              <button type="button" class="layui-btn layui-btn-danger" id="btnUploadImg">上传头像</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-body" id="resetPass">
+      <!-- 内容主体区域 -->
+      <div id="container">
+        <!-- 卡片区域 -->
+        <div class="layui-card card">
+          <div class="layui-card-header">修改密码</div>
+          <div class="layui-card-body" style="width: 500px;">
+            <!-- 表单 -->
+            <form class="layui-form" id="formUpdatePwd" lay-filter="normalPass">
+              <!-- 原密码 -->
+              <div class="layui-form-item">
+                <label class="layui-form-label">原密码</label>
+                <div class="layui-input-block">
+                  <input type="password" name="old_pwd" required placeholder="请输入原密码" autocomplete="off"
+                    class="layui-input" lay-verify="required">
+                </div>
+              </div>
+              <!-- 新密码 -->
+              <div class="layui-form-item">
+                <label class="layui-form-label">新密码</label>
+                <div class="layui-input-block">
+                  <input type="password" name="new_pwd" required placeholder="请输入新密码" autocomplete="off"
+                    class="layui-input" lay-verify="required|pwd">
+                </div>
+              </div>
+              <!-- 确认密码 -->
+              <div class="layui-form-item">
+                <label class="layui-form-label">确认新密码</label>
+                <div class="layui-input-block">
+                  <input type="password" name="re_pwd" required placeholder="请确认新密码" autocomplete="off"
+                    class="layui-input" lay-verify="required|repwd">
+                </div>
+              </div>
+              <!-- 按钮 -->
+              <div class="layui-form-item">
+                <div class="layui-input-block">
+                  <button class="layui-btn" lay-submit lay-filter="formDemo">修改密码</button>
+                  <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 页面底部区域 -->
+    <div class="layui-footer">
+      <!-- 底部固定区域 -->
+      © www.itheima.com - 黑马程序员
+    </div>
+  </div>
+
+</body>
+
+<script src="../layui/layui.js"></script>
+<script src="../js/template-web.js"></script>
+<script type="text/html" id="news_type">
+  {{each data}}
+  <tr>
+    <td>{{$value.Id}}</td>
+    <td>{{$value.name}}</td>
+    <td>{{$value.alias}}</td>
+    <td>
+    <button type="button" class="layui-btn layui-btn-xs btn-edit updateInfo" data-id={{$value.Id}}>修改</button>
+    <button type="button" class="layui-btn layui-btn-danger layui-btn-xs btn-delete deleteInfo" data-id={{$value.Id}}>删除</button>
+    </td>
+  <tr>
+  {{/each}}
+</script>
+<script type="text/html" id="select-title">
+  {{each data}}
+  <option value="{{$value.Id}}">{{$value.name}}</option>
+  {{/each}}
+</script>
+<script type="text/html" id="template-add">
+  <form class="layui-form" id="form-add">
+    <!-- 分类的名字 -->
+    <div class="layui-form-item">
+      <label class="layui-form-label">分类名称</label>
+      <div class="layui-input-block">
+        <input type="text" name="name" required lay-verify="required|name" placeholder="请输入分类名称" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <!-- 分类的别名 -->
+    <div class="layui-form-item">
+      <label class="layui-form-label">分类别名</label>
+      <div class="layui-input-block">
+        <input type="text" name="alias" required lay-verify="required|alias" placeholder="请输入分类别名" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <!-- 按钮 -->
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button class="layui-btn" lay-submit lay-filter="formDemo">确认添加</button>
+        <button type="reset" class="layui-btn layui-btn-primary" id="cate_reset">重置</button>
+      </div>
+    </div>
+  </form>
+</script>
+<script type="text/html" id="template-edit">
+  <form class="layui-form" id="form-edit" lay-filter="form-update">
+    <!-- 分类的 id（隐藏域） (大写Id)-->
+    <input type="hidden" name="Id"> 
+    <!-- 分类的名字 -->
+    <div class="layui-form-item">
+      <label class="layui-form-label">分类名称</label>
+      <div class="layui-input-block">
+        <input type="text" name="name" required lay-verify="required|name" placeholder="请输入分类名称" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <!-- 分类的别名 -->
+    <div class="layui-form-item">
+      <label class="layui-form-label">分类别名</label>
+      <div class="layui-input-block">
+        <input type="text" name="alias" required lay-verify="required|alias" placeholder="请输入分类别名" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <!-- 按钮 -->
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button class="layui-btn confirmUpdate" lay-submit lay-filter="formDemo">确认修改</button>
+      </div>
+    </div>
+  </form>
+</script>
+
+<script>
+  //JS 
+  layui.use(['element', 'layer', 'util'], function () {
+    var element = layui.element
+      , layer = layui.layer
+      , util = layui.util
+      , $ = layui.$;
+
+    //头部事件
+    util.event('lay-header-event', {
+      //左侧菜单事件
+      menuLeft: function (othis) {
+        layer.msg('展开左侧菜单的操作', { icon: 0 });
+      }
+      , menuRight: function () {
+        layer.open({
+          type: 1
+          , content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
+          , area: ['260px', '100%']
+          , offset: 'rt' //右上角
+          , anim: 5
+          , shadeClose: true
+        });
+      }
+    });
+
+  });
+</script>
+<script src="../js/jquery-3.6.0.js"></script>
+<script src="../js/Cropper.js"></script>
+<script src="../js/jquery-cropper.js"></script>
+<script src="../../tinymce/tinymce/tinymce.min.js"></script>
+<script src="../../tinymce/tinymce/tinymce_setup.js"></script>
+<script src="../js/baseAPI.js"></script>
+<script src="../js/index.js"></script>
+<script>
+  // 初始化富文本编辑器
+  initEditor()
+</script>
+
+</html>
