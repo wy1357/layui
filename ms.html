@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // 同步>回调>异步
+    // 当 Promise 中的第一个then的所有同步代码执行完 才会触发 第二个then
+
+    // new Promise((res, rej) => {
+    //         console.log(1);
+    //         res()
+    //     })
+    //     .then(() => {
+    //         setTimeout(() => {
+    //             console.log(2);
+    //         }, 0)
+    //         console.log(3);
+    //         new Promise((res, rej) => {
+    //             console.log(4);
+    //             res()
+    //         }).then(() => {
+    //             console.log(5);
+    //             setTimeout(() => {
+    //                 console.log(7);
+    //             }, 0)
+    //         }).then(() => {
+    //             console.log(8);
+    //             setTimeout(() => {
+    //                 console.log(9);
+    //             }, 0)
+    //         })
+    //     })
+    //     .then(() => {
+    //         console.log(10);
+    //         setTimeout(() => {
+    //             console.log(11);
+    //         }, 0)
+    //     })
+
+
+    //df
+
+    // new Promise((resolve, reject) => {
+    //         console.log("promise1", 1)
+    //         resolve()
+    //     })
+    //     .then(() => {
+    //         console.log("then11", 2)
+    //         new Promise((resolve, reject) => {
+    //                 console.log("promise2", 3)
+    //                 resolve();
+    //             })
+    //             .then(() => {
+    //                 console.log("then21", 4)
+    //                 new Promise((resolve, reject) => {
+    //                     console.log("promise3", 5)
+    //                     resolve();
+    //                 }).then(() => {
+    //                     console.log("then31", 7)
+    //                 }).then(() => {
+    //                     console.log("then32", 9)
+    //                 })
+    //             })
+    //             .then(() => {
+    //                 console.log("then22", 8)
+    //             })
+    //     })
+    //     .then(() => {
+    //         console.log("then12", 6)
+    //     })
+    // a = new Promise((res) => {
+    //     res()
+    // })
+    // console.log(a);
+        // async function a() {
+        //     setTimeout(() => {
+        //         console.log(999);
+        //     })
+        //     for(let i=0;i<3;i++){
+        //         console.log(i);
+        //         await new Promise (res => {
+        //             setTimeout(()=>{
+        //                 console.log(666);
+        //             },0)
+        //             res()
+        //         })
+        //     }
+        // }
+        // a()
+    // let s = new Promise((res, rej) => {
+    //     setTimeout(() => {
+    //         console.log(1);
+    //         res(2)
+    //     }, 0)
+    //     let p = new Promise((res, rej) => {
+    //         rej(3)
+    //     })
+    //     p.then(console.log)
+    // })
+    // setTimeout(() => {
+    //     console.log(5);
+    //     let p1 = new Promise((res, rej) => {
+    //             res(4)
+    //         })
+    //         .then(console.log)
+    //         .then(console.log)
+    // }, 0)
+
+    // s.then(6)
+    //     .then(console.log)
+
+    //cb---callback    回调
+
+
+    // function red() {
+    //     console.log('red');
+    // }
+
+    // function green() {
+    //     console.log('green');
+    // }
+
+    // function yellow() {
+    //     console.log('yellow');
+    // }
+
+    // var light = function(timmer, cb) {
+    //     return new Promise(function(resolve, reject) {
+    //         setTimeout(function() {
+    //             cb();
+    //             resolve();
+    //         }, timmer);
+    //     });
+    // };
+
+
+    // let s = () => {
+    //     return Promise.resolve()
+    //         .then(() => {
+    //             return light(3000, red)
+    //         })
+    //         .then(() => {
+    //             return light(2000, green)
+    //         })
+    //         .then(() => {
+    //             return light(1000, yellow)
+    //         })
+    //         .then(() => {
+    //             return s()
+    //         })
+    // }
+    // s()
+
+
+
+
+
+
+
+
+    // let a;
+    // const b = new Promise((resolve, reject) => {
+    //     console.log('promise1');
+    //     resolve();
+    // }).then(() => {
+    //     console.log('promise2');
+    // }).then(() => {
+    //     console.log('promise3');
+    // }).then(() => {
+    //     console.log('promise4');
+    // });
+
+    // a = new Promise(async(resolve, reject) => {
+    //     console.log(a)
+    //     await b;
+    //     console.log(a);
+    //     console.log('after1');
+    //     await a;
+    //     resolve();
+    //     console.log('after2');
+    // });
+    // console.log('end');
+</script>
+
+
+
+</html>
